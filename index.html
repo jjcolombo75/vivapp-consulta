@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#05070a">
+<title>Viva · Consulta a los profes</title>
+<!-- Vivapp · E15 · Consulta a los profes (19/11/2026). Fuente: tools/consulta-profes/ del repositorio privado. Texto de las preguntas: docs/presentacion/gen-consulta-profes.py -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070a;--panel:#111620;--line:#263043;--txt:#eef2f8;--muted:#8f99ab;--cian:#07b0f2;--mag:#f400a0;--yel:#ffe94a;
+  --display:'Archivo','Arial Narrow',sans-serif;--body:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--txt);font-family:var(--body);font-size:16px;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+body{background:radial-gradient(85% 40% at 100% 0%,rgba(244,0,160,.30),rgba(244,0,160,0) 70%),radial-gradient(95% 45% at 0% 100%,rgba(7,176,242,.30),rgba(7,176,242,0) 70%),var(--bg);background-attachment:fixed}
+main{max-width:520px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 18px calc(110px + env(safe-area-inset-bottom))}
+.marca{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.marca b{color:var(--txt)}
+h1{font-family:var(--display);font-weight:800;font-stretch:75%;text-transform:uppercase;font-size:40px;line-height:.98;margin:0 0 14px;text-wrap:balance}
+h1 .c{color:var(--cian);text-shadow:0 0 14px rgba(7,176,242,.55)}
+h2{font-family:var(--display);font-weight:800;font-stretch:80%;font-size:21px;line-height:1.15;margin:0 0 10px;text-wrap:balance}
+p{line-height:1.45;margin:0 0 12px}
+.muted{color:var(--muted)}
+.lista{margin:6px 0 16px;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.lista li{display:flex;gap:12px;align-items:flex-start;line-height:1.4}
+.lista li b{flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--cian);color:var(--cian);display:flex;align-items:center;justify-content:center;font-size:12px;margin-top:1px}
+.q{background:rgba(17,22,32,.88);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}
+.q .n{font-family:var(--display);font-weight:900;color:var(--mag);margin-right:6px}
+.q .ayuda{font-size:14px;color:var(--muted);margin:-4px 0 10px}
+.sub{font-weight:700;font-size:14px;color:var(--muted);margin:12px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+.ops{display:flex;flex-wrap:wrap;gap:8px}
+.op{appearance:none;border:1.5px solid var(--line);background:transparent;color:var(--txt);font:inherit;font-size:15px;line-height:1.2;padding:11px 14px;border-radius:12px;min-height:46px;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent}
+.op[aria-pressed="true"]{border-color:var(--cian);background:rgba(7,176,242,.16);box-shadow:0 0 0 1px var(--cian) inset,0 0 14px rgba(7,176,242,.35)}
+.op[disabled]{opacity:.35}
+.ops.col{flex-direction:column}.ops.col .op{width:100%}
+input[type=text],textarea{width:100%;font:inherit;font-size:16px;color:var(--txt);background:#0a0e15;border:1.5px solid var(--line);border-radius:12px;padding:12px;margin-top:8px}
+textarea{min-height:84px;resize:vertical}
+input:focus,textarea:focus,.op:focus-visible,.btn:focus-visible{outline:2px solid var(--yel);outline-offset:2px}
+.barra{position:fixed;left:0;right:0;bottom:0;padding:12px 18px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(rgba(5,7,10,0),rgba(5,7,10,.94) 30%);display:flex;justify-content:center}
+.barra .in{width:100%;max-width:520px;display:flex;gap:10px;align-items:center}
+.btn{appearance:none;border:none;font:inherit;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.04em;text-transform:uppercase;min-height:54px;padding:0 20px;border-radius:14px;background:var(--cian);color:#06090d;cursor:pointer;flex:1;box-shadow:0 0 18px rgba(7,176,242,.45)}
+.btn.sec{background:transparent;color:var(--txt);border:1.5px solid var(--line);box-shadow:none;flex:none}
+.btn[disabled]{opacity:.4;box-shadow:none}
+.prog{height:4px;border-radius:2px;background:var(--line);overflow:hidden;margin:0 0 18px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--cian),var(--mag));transition:width .25s}
+.fn{font-family:var(--display);font-weight:700;font-stretch:85%;font-size:26px;line-height:1.15;margin:4px 0 20px;text-wrap:pretty}
+.cnt{font-family:var(--display);font-weight:900;font-size:14px;letter-spacing:.12em;color:var(--mag)}
+.saltar{background:none;border:none;color:var(--muted);font:inherit;font-size:15px;text-decoration:underline;padding:12px 4px;cursor:pointer}
+.elegir .op{display:flex;gap:10px;align-items:flex-start}
+.elegir .op .k{flex:none;font-family:var(--display);font-weight:900;color:var(--muted);min-width:20px}
+.elegir .op.otro{opacity:.35}
+.tope{font-size:14px;color:var(--yel);min-height:20px;margin:6px 0 0}
+.aviso{border-left:3px solid var(--yel);padding:4px 0 4px 12px;color:var(--txt);font-size:15px}
+.fin{text-align:left;padding-top:10vh}
+.oculto{display:none!important}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"><p class="marca"><b>Viva Fit House</b> · la app de los profes</p><p class="muted">Cargando…</p></main>
+<div class="barra oculto" id="barra"><div class="in"><button class="btn sec" id="atras" type="button">Atrás</button><button class="btn" id="seguir" type="button">Seguir</button></div></div>
+<noscript><p style="padding:20px">Esta consulta necesita JavaScript.</p></noscript>
+<script>
+'use strict';
+// ── Configuración: la URL de la app web del Apps Script (Implementar > App web). Vacía: solo funciona ?demo ──
+const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbxRTwY_ZVittNIxFv810Qt5y1n8LDGG8VCVymCGv0Rcst2ZLDGkRQDDTvcdHkfI_sEt/exec';
+const VERSION = 'e15-1';
+
+// ── Preguntas: texto de docs/presentacion/gen-consulta-profes.py (Hoja 1 y Hoja 2), sin cambios de contenido ──
+const H1 = [
+  {n:1, t:'¿Qué hacés en Viva?', partes:[{id:'p1_que_hace', tipo:'uno', ops:['Sala','Personalizados','Las dos cosas']}]},
+  {n:2, t:'¿Dónde llevás hoy lo de tus alumnos?', ayuda:'Marcá todas las que valgan.', partes:[{id:'p2_donde_lleva', tipo:'varios',
+    ops:['De memoria','Cuaderno o papel','Excel o planilla','Notas del teléfono','WhatsApp','El sistema de Viva','Otra app'], otro:{op:'Otra app', id:'p2_otra_app', ph:'¿Cuál?'}}]},
+  {n:3, t:'¿Qué anotás?', ayuda:'Marcá todas las que valgan.', partes:[{id:'p3_que_anota', tipo:'varios',
+    ops:['La rutina','Las cargas','La asistencia','Las molestias','Los objetivos','Medidas o peso','Cómo lo vi ese día','Otra'], otro:{op:'Otra', id:'p3_otra', ph:'¿Qué más?'}}]},
+  {n:4, t:'¿Cuándo lo anotás?', ayuda:'Marcá todas las que valgan.', partes:[{id:'p4_cuando', tipo:'varios', ops:['En el momento','Al cerrar el turno','En casa','Casi nunca']}]},
+  {n:5, t:'Cuando armás la rutina de un alumno nuevo', partes:[
+    {id:'p5_parte', sub:'Partís', tipo:'uno', ops:['De cero','De una mía, ajustada','De una de Viva']},
+    {id:'p5_tarda', sub:'Tardás', tipo:'uno', ops:['Menos de 5 min','De 5 a 15 min','Más de 15 min']},
+    {id:'p5_se_la_da', sub:'Se la das', tipo:'varios', ops:['En papel','Por WhatsApp','En la app','De palabra']}]},
+  {n:6, t:'En la sala, ¿cómo te enterás de estas dos cosas?', partes:[
+    {id:'p6_ayuda', sub:'Alguien necesita ayuda', tipo:'uno', ops:['Lo veo','Me llama','Me avisan','No me entero']},
+    {id:'p6_nuevo', sub:'Un socio es nuevo', tipo:'uno', ops:['Lo noto','Me lo dice','Me avisan','No me entero']}]},
+  {n:7, t:'El teléfono', partes:[
+    {id:'p7_telefono_sala', sub:'Lo usás en la sala', tipo:'uno', ops:['Siempre','A veces','Prefiero no','No se puede']},
+    {id:'p7_le_escriben', sub:'Te escriben socios', tipo:'uno', ops:['Ninguno','Pocos','Muchos']},
+    {id:'p7_le_pesa', tipo:'varios', ops:['Y me pesa']}]},
+  {n:8, t:'Si Viva te da una app, ¿qué te haría dejarla y volver a lo tuyo?', ayuda:'Hasta tres.', partes:[{id:'p8_la_dejaria', tipo:'varios', max:3, col:true,
+    ops:['Cargar lo mismo dos veces','Que sea lenta o pida muchos toques','Que no se adapte a cómo armo rutinas','Que sirva para controlarme','No poder llevarme lo de mis alumnos','Que ande mal con poca señal']}]},
+  {n:9, t:'Lo que más tiempo te saca en el trabajo y no debería', partes:[{id:'p9_tiempo', tipo:'texto'}]},
+  {n:10, t:'Lo que anotás hoy y no querrías perder por nada', partes:[{id:'p10_no_perder', tipo:'texto'}]},
+];
+const FUNCS = [
+  'Que un socio me llame desde su app y yo conteste con un toque.',
+  'Saber cuándo entra un socio nuevo, con su semana y su rutina.',
+  'Armar la rutina desde una plantilla; el socio la ve en su app.',
+  'Armar la rutina de cero, a mi manera, y guardar mis plantillas.',
+  'Ver las cargas y las sesiones que registró cada socio.',
+  'Que el socio me pida cambiar un ejercicio y yo lo apruebe.',
+  'Saber si a un socio le molesta algo, cuando él lo comparte.',
+  'Un resumen ya armado para revisar con cada socio cómo viene.',
+  'Dejarle al socio una línea, escrita o dictada, en su app.',
+  'Ver quiénes dejaron de venir y poder escribirles.',
+  'Escribirme con el socio sin darle mi teléfono.',
+  'Mis notas de cada alumno: solo las veo yo y me las llevo.',
+  'Llevar ahí también a mis alumnos personalizados.',
+  'Grabar cada tanto un video corto de un ejercicio.',
+];
+const HOY = ['Memoria','Lo anoto','WhatsApp','No lo hago'];
+const USARIA = ['Siempre','A veces','Nunca'];
+const SIN_SOCIOS = 'Sin nombres de socios, por favor.';
+
+// ── Estado ──
+const qs = new URLSearchParams(location.search);
+const DEMO = qs.has('demo');
+const CLAVE = (qs.get('s') || (DEMO ? 'demo' : '')).trim().slice(0, 40);
+const KB = 'vivapp-consulta:' + CLAVE;
+const guardado = (() => { try { return JSON.parse(localStorage.getItem(KB) || 'null'); } catch (e) { return null; } })();
+const st = guardado && guardado.version === VERSION ? guardado : {version: VERSION, paso: 'intro', fi: 0, r: {}, imp: [], sob: [], vol: {nombre:'', contacto:''}};
+let sesion = {codigo:'', sede:'', cierra:''};
+const app = document.getElementById('app'), barra = document.getElementById('barra');
+const bAtras = document.getElementById('atras'), bSeguir = document.getElementById('seguir');
+
+function guardar() { try { localStorage.setItem(KB, JSON.stringify(st)); } catch (e) {} }
+function huella() {
+  try {
+    let h = localStorage.getItem('vivapp-consulta:huella');
+    if (!h) { h = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()); localStorage.setItem('vivapp-consulta:huella', h); }
+    return h;
+  } catch (e) { return 'sin-almacenamiento-' + Math.random(); }
+}
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+const CAB = () => `<p class="marca"><b>Viva Fit House</b> · la app de los profes${sesion.sede ? ' · ' + esc(sesion.sede) : ''}</p>`;
+
+// ── Servidor (o simulado en ?demo) ──
+async function llamar(cuerpo) {
+  if (DEMO) return demo(cuerpo);
+  if (!URL_SCRIPT) return {ok:false, error:'config'};
+  try {
+    const r = await fetch(URL_SCRIPT, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(cuerpo), redirect:'follow'});
+    return await r.json();
+  } catch (e) { return {ok:false, error:'red'}; }
+}
+function demo(c) {
+  const k = 'vivapp-consulta:demo-servidor';
+  const s = JSON.parse(localStorage.getItem(k) || '{"cod":{},"usados":0}');
+  const cupo = 3; let res;
+  if (c.accion === 'abrir') {
+    const prev = s.cod[c.huella];
+    if (prev && prev.usado) res = {ok:false, error:'ya', sede:'Demo'};
+    else if (s.usados >= cupo) res = {ok:false, error:'lleno', sede:'Demo'};
+    else { if (!prev) s.cod[c.huella] = {codigo:'c' + Date.now(), usado:false}; res = {ok:true, codigo:s.cod[c.huella].codigo, sede:'Demo', cierra:'30/11'}; }
+  } else {
+    const e = Object.values(s.cod).find(x => x.codigo === c.codigo);
+    if (!e) res = {ok:false, error:'codigo'}; else if (e.usado) res = {ok:false, error:'ya'}; else if (s.usados >= cupo) res = {ok:false, error:'lleno'};
+    else { e.usado = true; s.usados++; window.__ultimoEnvio = c; res = {ok:true}; }
+  }
+  localStorage.setItem(k, JSON.stringify(s));
+  return new Promise(ok => setTimeout(() => ok(res), 250));
+}
+
+const ERRORES = {
+  sede: ['Este enlace no es de ninguna sede', 'Revisá que lo hayas abierto completo desde el mensaje de WhatsApp. Si sigue igual, escribile a Juanjo.'],
+  antes: ['Todavía no abrió', 'La consulta de tu sede abre en unos días. Volvé a entrar desde el mismo enlace.'],
+  cerrada: ['La consulta ya cerró', 'Gracias igual. Si querés contar algo, escribile a Juanjo.'],
+  lleno: ['Ya contestaron todos los profes de tu sede', 'Si vos no contestaste, escribile a Juanjo y lo resolvemos.'],
+  ya: ['Ya contestaste desde este teléfono', 'Gracias. Se contesta una sola vez por profe.'],
+  codigo: ['No pudimos validar tu respuesta', 'Volvé a abrir el enlace desde WhatsApp. Si sigue igual, escribile a Juanjo.'],
+  red: ['No hay conexión', 'Tus respuestas quedaron guardadas en este teléfono. Probá de nuevo cuando tengas señal.'],
+  config: ['La consulta todavía no está lista', 'Escribile a Juanjo.'],
+  ocupado: ['Hay mucha gente contestando', 'Esperá unos segundos y probá de nuevo. Tus respuestas siguen acá.'],
+  interno: ['Algo falló de nuestro lado', 'Tus respuestas quedaron guardadas en este teléfono. Probá de nuevo en un rato o escribile a Juanjo.'],
+  formato: ['Algo falló de nuestro lado', 'Escribile a Juanjo.'],
+};
+function pantallaError(cod, reintentar) {
+  const [t, d] = ERRORES[cod] || ERRORES.interno;
+  app.innerHTML = CAB() + `<div class="fin"><h1>${esc(t)}</h1><p>${esc(d)}</p></div>`;
+  if (reintentar) barraCon(null, 'Probar de nuevo', reintentar); else barra.classList.add('oculto');
+}
+
+// ── Barra de abajo ──
+function barraCon(atras, texto, seguir, habilitado = true) {
+  barra.classList.remove('oculto');
+  bAtras.classList.toggle('oculto', !atras); bAtras.onclick = atras;
+  bSeguir.textContent = texto; bSeguir.onclick = seguir; bSeguir.disabled = !habilitado;
+}
+function ir(paso) { st.paso = paso; guardar(); pintar(); window.scrollTo(0, 0); }
+
+// ── Pantallas ──
+function intro() {
+  app.innerHTML = CAB() + `
+    <h1>¿Cómo trabajás <span class="c">hoy?</span></h1>
+    <p>Estamos diseñando la app de los profes de Viva y antes de seguir queremos saber cómo trabajás vos, para que te sirva de verdad y no sea una carga más.</p>
+    <ul class="lista">
+      <li><b>1</b><span><strong>5 minutos.</strong> Dos partes: cómo trabajás hoy y lo que podría hacer la app.</span></li>
+      <li><b>2</b><span><strong>Anónima.</strong> No pide tu nombre y no evalúa a nadie, tampoco a tu sede.</span></li>
+      <li><b>3</b><span><strong>Una sola vez.</strong> Se envía al final; hasta ahí podés volver atrás.</span></li>
+      <li><b>4</b><span><strong>Quién la lee.</strong> Juanjo, que diseña la app. A Viva le llega solo el resumen, sin nombres.</span></li>
+    </ul>
+    <p class="aviso">Sirve si contás lo que hacés de verdad, no lo que habría que hacer.</p>
+    ${sesion.cierra ? `<p class="muted">Abierta hasta el ${esc(sesion.cierra)}.</p>` : ''}`;
+  barraCon(null, 'Empezar', () => ir('h1'));
+}
+
+function botonesOps(parte, valor, alCambiar) {
+  const sel = parte.tipo === 'uno' ? [valor].filter(Boolean) : (valor || []);
+  const lleno = parte.max && sel.length >= parte.max;
+  return `<div class="ops${parte.col ? ' col' : ''}" role="group">` + parte.ops.map(o => {
+    const on = sel.includes(o);
+    return `<button type="button" class="op" data-id="${parte.id}" data-op="${esc(o)}" aria-pressed="${on}" ${!on && lleno ? 'disabled' : ''}>${esc(o)}</button>`;
+  }).join('') + '</div>';
+}
+
+function hoja1() {
+  const r = st.r;
+  let html = CAB() + `<div class="prog"><i style="width:8%"></i></div><p class="cnt">PARTE 1 DE 2</p><h1>Cómo trabajás hoy</h1>`;
+  for (const q of H1) {
+    html += `<section class="q"><h2><span class="n">${q.n}</span>${esc(q.t)}</h2>${q.ayuda ? `<p class="ayuda">${esc(q.ayuda)}</p>` : ''}`;
+    for (const p of q.partes) {
+      if (p.sub) html += `<p class="sub">${esc(p.sub)}</p>`;
+      if (p.tipo === 'texto') html += `<textarea data-txt="${p.id}" maxlength="400" placeholder="${SIN_SOCIOS}" aria-label="${esc(q.t)}">${esc(r[p.id] || '')}</textarea>`;
+      else {
+        html += botonesOps(p, r[p.id]);
+        if (p.otro) {
+          const ver = (r[p.id] || []).includes(p.otro.op);
+          html += `<input type="text" data-txt="${p.otro.id}" maxlength="80" placeholder="${esc(p.otro.ph)}" class="${ver ? '' : 'oculto'}" value="${esc(r[p.otro.id] || '')}">`;
+        }
+      }
+    }
+    html += '</section>';
+  }
+  app.innerHTML = html;
+  app.querySelectorAll('.op').forEach(b => b.onclick = () => {
+    const id = b.dataset.id, o = b.dataset.op;
+    const parte = H1.flatMap(q => q.partes).find(p => p.id === id);
+    if (parte.tipo === 'uno') r[id] = r[id] === o ? '' : o;
+    else { const a = r[id] || []; r[id] = a.includes(o) ? a.filter(x => x !== o) : a.concat(o); }
+    guardar();
+    const y = window.scrollY; hoja1(); window.scrollTo(0, y);
+  });
+  app.querySelectorAll('[data-txt]').forEach(t => t.oninput = () => { r[t.dataset.txt] = t.value; guardar(); });
+  barraCon(() => ir('intro'), 'Seguir a la parte 2', () => { st.fi = 0; ir('h2'); });
+}
+
+function hoja2() {
+  const i = st.fi, r = st.r, kh = 'f' + (i + 1) + '_hoy', ku = 'f' + (i + 1) + '_usaria';
+  const pct = 10 + Math.round(70 * i / FUNCS.length);
+  app.innerHTML = CAB() + `<div class="prog"><i style="width:${pct}%"></i></div>
+    <p class="cnt">PARTE 2 · LO QUE PODRÍA HACER LA APP · ${i + 1} DE ${FUNCS.length}</p>
+    <p class="fn">${esc(FUNCS[i])}</p>
+    <section class="q"><p class="sub" style="margin-top:0">Hoy lo resuelvo</p>${botonesOps({id:kh, tipo:'uno', ops:HOY}, r[kh])}
+      <p class="sub">Lo usaría</p>${botonesOps({id:ku, tipo:'uno', ops:USARIA}, r[ku])}</section>
+    <button type="button" class="saltar" id="saltar">No sé, sigo con la próxima</button>`;
+  const avanzar = () => { if (st.fi < FUNCS.length - 1) { st.fi++; guardar(); hoja2(); window.scrollTo(0, 0); } else ir('elegir'); };
+  app.querySelectorAll('.op').forEach(b => b.onclick = () => {
+    const id = b.dataset.id; r[id] = r[id] === b.dataset.op ? '' : b.dataset.op; guardar();
+    if (r[kh] && r[ku]) { hoja2(); setTimeout(avanzar, 280); } else hoja2();
+  });
+  document.getElementById('saltar').onclick = avanzar;
+  barraCon(() => { if (st.fi > 0) { st.fi--; guardar(); hoja2(); window.scrollTo(0, 0); } else ir('h1'); }, i < FUNCS.length - 1 ? 'Siguiente' : 'Seguir', avanzar);
+}
+
+function elegir(cual) {
+  const lista = st[cual], otra = st[cual === 'imp' ? 'sob' : 'imp'];
+  const tit = cual === 'imp' ? 'Tus tres imprescindibles' : 'Las tres que te sobran';
+  const bajada = cual === 'imp' ? 'Las que más te servirían. Nos sirve más eso que un sí a todo.' : 'Las que menos te sirven o no querrías. Las que elegiste como imprescindibles no aparecen.';
+  app.innerHTML = CAB() + `<div class="prog"><i style="width:${cual === 'imp' ? 84 : 90}%"></i></div>
+    <p class="cnt">PARTE 2 · ELEGÍ HASTA TRES</p><h1>${tit}</h1><p class="muted">${bajada}</p>
+    <div class="ops col elegir">` + FUNCS.map((f, k) => {
+      const n = k + 1, on = lista.includes(n), bloq = otra.includes(n);
+      if (bloq) return '';
+      return `<button type="button" class="op" data-n="${n}" aria-pressed="${on}" ${!on && lista.length >= 3 ? 'disabled' : ''}><span class="k">${n}</span><span>${esc(f)}</span></button>`;
+    }).join('') + `</div><p class="tope">${lista.length}/3 elegidas${lista.length >= 3 ? ' · para cambiar, tocá una elegida' : ''}</p>`;
+  app.querySelectorAll('.op').forEach(b => b.onclick = () => {
+    const n = +b.dataset.n; const k = lista.indexOf(n);
+    if (k >= 0) lista.splice(k, 1); else if (lista.length < 3) lista.push(n);
+    guardar(); const y = window.scrollY; elegir(cual); window.scrollTo(0, y);
+  });
+  if (cual === 'imp') barraCon(() => { st.fi = FUNCS.length - 1; ir('h2'); }, 'Seguir', () => ir('sobran'));
+  else barraCon(() => ir('elegir'), 'Seguir', () => ir('cierre'));
+}
+
+function cierre() {
+  const r = st.r, v = st.vol;
+  app.innerHTML = CAB() + `<div class="prog"><i style="width:96%"></i></div><p class="cnt">ÚLTIMO PASO</p><h1>Antes de enviar</h1>
+    <section class="q"><h2>Lo que vos necesitás y no está en la lista</h2>
+      <textarea data-txt="falta" maxlength="400" placeholder="${SIN_SOCIOS} Si no hay nada, dejalo vacío.">${esc(r.falta || '')}</textarea></section>
+    <section class="q"><h2>¿Querés verla antes que nadie y opinar?</h2>
+      <p class="ayuda">Opcional. Tu nombre se guarda aparte de tus respuestas y no se cruza con ellas. Se borra cuando termina esa prueba.</p>
+      <input type="text" data-vol="nombre" maxlength="80" placeholder="Tu nombre (si querés)" value="${esc(v.nombre)}" autocomplete="name">
+      <input type="text" data-vol="contacto" maxlength="80" placeholder="Cómo te escribo: teléfono o Instagram" value="${esc(v.contacto)}" class="${v.nombre.trim() ? '' : 'oculto'}"></section>
+    <p class="muted" style="font-size:14px">Las respuestas las lee Juanjo, que diseña la app. A Viva le llega solo el resumen, sin nombres. Al enviar ya no se puede cambiar.</p>
+    <p class="aviso oculto" id="err"></p>`;
+  app.querySelector('[data-txt]').oninput = e => { r.falta = e.target.value; guardar(); };
+  app.querySelectorAll('[data-vol]').forEach(t => t.oninput = () => {
+    v[t.dataset.vol] = t.value; guardar();
+    app.querySelector('[data-vol="contacto"]').classList.toggle('oculto', !v.nombre.trim());
+  });
+  barraCon(() => ir('sobran'), 'Enviar', enviar);
+}
+
+async function enviar() {
+  bSeguir.disabled = true; bSeguir.textContent = 'Enviando…';
+  const res = await llamar({accion:'enviar', clave:CLAVE, codigo:sesion.codigo, version:VERSION, respuestas:armar(),
+    voluntario: st.vol.nombre.trim() ? {nombre: st.vol.nombre.trim(), contacto: st.vol.contacto.trim()} : null});
+  if (res.ok) {
+    try { localStorage.setItem(KB + ':enviado', '1'); localStorage.removeItem(KB); } catch (e) {}
+    return final();
+  }
+  if (['ya', 'lleno', 'cerrada', 'sede', 'codigo'].includes(res.error)) return pantallaError(res.error);
+  const [t, d] = ERRORES[res.error] || ERRORES.interno;
+  const e = document.getElementById('err'); e.textContent = t + '. ' + d; e.classList.remove('oculto');
+  bSeguir.disabled = false; bSeguir.textContent = 'Probar de nuevo';
+}
+
+function armar() {
+  const o = {};
+  H1.forEach(q => q.partes.forEach(p => {
+    const v = st.r[p.id];
+    o[p.id] = p.id === 'p7_le_pesa' ? ((v || []).length ? 'sí' : '') : (v || (p.tipo === 'varios' ? [] : ''));
+    if (p.otro) o[p.otro.id] = (v || []).includes(p.otro.op) ? (st.r[p.otro.id] || '') : '';
+  }));
+  FUNCS.forEach((_, k) => { o['f' + (k + 1) + '_hoy'] = st.r['f' + (k + 1) + '_hoy'] || ''; o['f' + (k + 1) + '_usaria'] = st.r['f' + (k + 1) + '_usaria'] || ''; });
+  o.imprescindibles = st.imp.slice().sort((a, b) => a - b).join(', ');
+  o.sobran = st.sob.slice().sort((a, b) => a - b).join(', ');
+  o.falta = st.r.falta || '';
+  return o;
+}
+
+function final() {
+  app.innerHTML = CAB() + `<div class="fin"><h1>Listo, <span class="c">gracias.</span></h1>
+    <p>Tus respuestas llegaron. Con lo que cuenten todos los profes vamos a ajustar la app antes de mostrarla.</p>
+    <p class="muted">Ya podés cerrar esta página.</p></div>`;
+  barra.classList.add('oculto');
+}
+
+function pintar() {
+  ({intro, h1: hoja1, h2: hoja2, elegir: () => elegir('imp'), sobran: () => elegir('sob'), cierre}[st.paso] || intro)();
+}
+
+// ── Arranque ──
+async function arrancar() {
+  if (!CLAVE) return pantallaError('sede');
+  try { if (localStorage.getItem(KB + ':enviado')) return pantallaError('ya'); } catch (e) {}
+  app.innerHTML = CAB() + '<p class="muted">Cargando…</p>';
+  const res = await llamar({accion:'abrir', clave:CLAVE, huella:huella()});
+  if (!res.ok) {
+    if (res.sede) sesion.sede = res.sede;
+    return pantallaError(res.error, ['red', 'ocupado', 'interno'].includes(res.error) ? arrancar : null);
+  }
+  sesion = {codigo: res.codigo, sede: res.sede || '', cierra: res.cierra || ''};
+  pintar();
+}
+arrancar();
+</script>
+</body>
+</html>
