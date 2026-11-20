@@ -66,7 +66,7 @@ input:focus,textarea:focus,.op:focus-visible,.btn:focus-visible{outline:2px soli
 'use strict';
 // ── Configuración: la URL de la app web del Apps Script (Implementar > App web). Vacía: solo funciona ?demo ──
 const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbxRTwY_ZVittNIxFv810Qt5y1n8LDGG8VCVymCGv0Rcst2ZLDGkRQDDTvcdHkfI_sEt/exec';
-const VERSION = 'e15-1';
+const VERSION = 'e15-1'; // no cambiar mientras está abierta: borraría lo que un profe dejó a medias
 
 // ── Preguntas: texto de docs/presentacion/gen-consulta-profes.py (Hoja 1 y Hoja 2), sin cambios de contenido ──
 const H1 = [
@@ -323,8 +323,9 @@ function armar() {
     if (p.otro) o[p.otro.id] = (v || []).includes(p.otro.op) ? (st.r[p.otro.id] || '') : '';
   }));
   FUNCS.forEach((_, k) => { o['f' + (k + 1) + '_hoy'] = st.r['f' + (k + 1) + '_hoy'] || ''; o['f' + (k + 1) + '_usaria'] = st.r['f' + (k + 1) + '_usaria'] || ''; });
-  o.imprescindibles = st.imp.slice().sort((a, b) => a - b).join(', ');
-  o.sobran = st.sob.slice().sort((a, b) => a - b).join(', ');
+  // Como lista: el script la guarda "4 · 7 · 11". Con comas, la planilla la tomaba como fecha (20/11).
+  o.imprescindibles = st.imp.slice().sort((a, b) => a - b).map(String);
+  o.sobran = st.sob.slice().sort((a, b) => a - b).map(String);
   o.falta = st.r.falta || '';
   return o;
 }
